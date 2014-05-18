@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Biba</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="hello_world">Hello world!</string>
+    <string name="charge_button">Charge!</string>
+    <string name="drink_button">Drink!</string>
+    <string name="drink_total">"Drinks remaining"</string>
+    <string name="drinknum">"0"</string>
+    <string name="miles">Miles</string>
+    <string name="reps">Reps</string>
+    <string name="poundreps">Pounds x Reps</string>
+    <string name="min">Minutes</string>
+    <string name="howTo">Bank</string>
+    <string name="FAQ">FAQ</string>
+    <string name="home">Home</string>
+    <string name="banked_beers">Banked Beers</string>
+    <string name="bank_button">Bank it!</string>
+    <string name="avatar_description">Avatar</string>
+    <string name="admob_id">ad1</string>
+    <string name="level1">Beginner</string>
+    <string name="level2">Intermediate</string>
+    <string name="level3">Advanced</string>
+    <string name="level4">Hardcore</string>
+    <string name="Settings">Settings</string>
+    <string name="level_select">Select your workout level</string>
+    <string name="reset_button">Reset Bank to 0</string>
+    <string name="workouttype"><u>Workout Type</u></string>
+
+    <string-array name="workouts_array">
+        <item>Push-ups</item>
+        <item>Running</item>
+        <item>Walking</item>
+        <item>Biking</item>
+        <item>Lifting Weights</item>
+        <item>Pull-ups</item>
+        <item>Sports</item>
+    </string-array>
+
+    <string name="title_activity_how_to">How To</string>
+    <string name="title_activity_faq">FAQ</string>
+    <string name="title_activity_beer_bank">Beer Bank</string>
+    <string name="title_activity_beer_settings">Beer Settings</string>
+    <string name="runBase">1</string>
+    <string name="pushBase">100</string>
+    <string name="pullBase">25</string>
+    <string name="walkBase">2.5</string>
+    <string name="bikeBase">5</string>
+    <string name="weightBase">10000</string>
+    <string name="sportBase">30</string>
+    <string name="level1Multi">1</string>
+    <string name="level2Multi">2</string>
+    <string name="level3Multi">5</string>
+    <string name="balanceLabel"><u>Drinks Earned</u>:  </string>
+    <string name="title_activity_log_view">Workout History</string>
+    
+</resources>
