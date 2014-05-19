@@ -19,7 +19,6 @@
 	        android:id="@+id/label"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-			android:onClick="chargeBattery"
 	        android:layout_alignParentRight="true"
 	        android:layout_centerVertical = "true"
 	        android:layout_marginTop="10dp"
@@ -37,7 +36,6 @@
               android:layout_alignParentLeft="true"
               android:layout_marginBottom="12dp"
               android:layout_toLeftOf = "@id/label"
-              android:onClick="chargeBattery"
               android:contentDescription="@string/avatar_description"
               android:src="@drawable/partydroid" />
           
@@ -132,7 +130,6 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="match_parent"
 		        android:layout_marginBottom="30dp"
-
 		        android:layout_toLeftOf = "@id/editText1"
 		        android:contentDescription="@string/charge_button"
 		        android:src="@drawable/chargeb"
@@ -151,7 +148,6 @@
 		        android:layout_alignParentBottom="true"
 		        android:layout_alignParentLeft="true"
 		        android:contentDescription="@string/drink_button"
-		        android:onClick="haveADrink"
 		        android:src="@drawable/drinkb" />
                <TextView 
                    android:id="@+id/drinkText"
@@ -171,7 +167,7 @@
 		        android:layout_alignParentRight="true"
 		        android:contentDescription="@string/bank_button"
 		        android:src="@drawable/bankb"
-		        android:onClick="bankADrink" />
+		        />
                               <TextView 
                    android:id="@+id/bankText"
                    android:layout_width="wrap_content"
