@@ -4,26 +4,14 @@ import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
-
-
-
-
-
-
-
-
-
-
+import n.switzloco.beerbatterycharger.MainFrag.OnButtonListener;
 //import n.switzloco.beerbatterycharger.workoutDBcontract.workoutEntry;
 //import n.switzloco.beerbatterycharger.workoutDBcontract.workoutEntry;
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -50,7 +38,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnButtonListener {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -61,6 +49,28 @@ public class MainActivity extends Activity {
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
 
+	DecimalFormat df = new DecimalFormat("0.##");
+	View rootView;
+	public double AdrinksEarned = 0;
+	public double drinks = 0;
+	public double runConvert = 0.5;
+	public double pushUpConvert = .005;
+	public double walkConvert = .2;
+	public double bikeConvert = .1;
+	public double weightsConvert = .00015;
+	public double pullConvert=.025;
+	public double sportConvert=.0333;
+	public static final String PREFS_NAME = "MyPrefsFile";
+	public String workUnit;
+	public String workOutLevel;
+	public String curWorkout;
+	public MainFrag main;
+	public MainFrag bank;
+		
+    public double curConversion;
+	
+	public double drinksEarned = 0;
+	public int drinksBanked = 0;
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
@@ -78,10 +88,29 @@ public class MainActivity extends Activity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
-		
+
 		
 	}
+	
+	@Override
+	public void onBankButtonPress(String tag1) {
+
+    	//MainFrag mainF = (MainFrag) getFragmentManager().findFragmentByTag(tag1);//FragmentByTag(tag1);
+    	 
+    	main.setBeerText("shoooo");
+    	
+	}	
+	
+	@Override
+	public void onChargeButtonPress() {
+		
+	}
+
+	@Override
+	public void onDrinkButtonPress() {
+		
+	}
+
 
 	
 
@@ -100,13 +129,16 @@ public class MainActivity extends Activity {
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a PlaceholderFragment (defined as a static inner class
 			// below).
-			return PlaceholderFragment.newInstance(position + 1);
+			
+			return MainFrag.newInstance(position+1);
+			//return PlaceholderFragment.newInstance(position + 1);
+			//MainActivity$PlaceholderFragment
 		}
 
 		@Override
 		public int getCount() {
-			// Show 4 total pages.
-			return 4;
+			// Show 2 total pages.
+			return 2;
 		}
 
 		@Override
@@ -182,6 +214,14 @@ public class MainActivity extends Activity {
 			Integer position = (getArguments().getInt(
 					ARG_SECTION_NUMBER) );
 			
+	    	Context context = getActivity();
+	    	drinksBanked = drinksBanked + 1;
+	    	CharSequence enterValText = "on create view banked drinks " + df.format(drinksBanked);
+	    	int duration = Toast.LENGTH_SHORT;
+
+	    	Toast toast = Toast.makeText(context, enterValText, duration);
+	    	toast.show();
+			
 			
 			rootView= inflater.inflate(R.layout.fragment_main, container,
 					false);
@@ -235,10 +275,8 @@ public class MainActivity extends Activity {
 		       editor.putFloat("AdrinksEarned", (float) drinksEarned);
 		       editor.putInt("AdrinksBanked", drinksBanked);
 		       
-
-
-		       // Commit the edits!
-		       editor.commit();
+		       //  the edits!
+		       editor.apply();
 		       
 		       //Double blueblue = (double) 0;
 		       //blueblue = (double) settings.getFloat("AdrinksEarned",0);
@@ -263,8 +301,8 @@ public class MainActivity extends Activity {
 		       
 		       
 
-		       // Commit the edits!
-		       editor.commit();
+		       //  the edits!
+		       editor.apply();
 	    	
 	    	super.onStop();
 
@@ -327,8 +365,8 @@ public class MainActivity extends Activity {
 				       editor.putFloat("AdrinksEarned", (float) drinksEarned);
 				       editor.putInt("AdrinksBanked", drinksBanked);
 
-				       // Commit the edits!
-				       editor.commit();	
+				       //  the edits!
+				       editor.apply();	
 		    		
 		    	//Write file with data
 		    		
@@ -376,7 +414,7 @@ public class MainActivity extends Activity {
 		       SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
 		       settings.edit();
 		       drinksBanked = settings.getInt("AdrinksBanked",0);
-		       
+		       //rinksBanked = drinksBanked + 1;
 		    	TextView beerText = (TextView) rootView.findViewById(R.id.beerBalanceText);
 		        
 		    	beerText.setText(df.format(drinksBanked) + " drinks banked");
@@ -406,6 +444,29 @@ public class MainActivity extends Activity {
 		        }
 		        beerText.setText(df.format(drinksBanked) + " drinks banked");
 		        
+
+				badge1.setOnClickListener(new OnClickListener(){
+					
+					public void onClick(View v){
+						drinksBanked = drinksBanked + 1;
+						Context context = getActivity();
+						CharSequence enterValText = df.format(drinksBanked) + " drinks banked!";
+						int duration = Toast.LENGTH_SHORT;
+
+						Toast toast = Toast.makeText(context, enterValText, duration);
+						toast.show();
+					}
+				});
+		        
+	    }
+	    
+	    public void msg(String msgToPrint){
+			Context context = getActivity();
+			CharSequence enterValText = msgToPrint;
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, enterValText, duration);
+			toast.show();
 	    }
 	    
 		public void onCreateMain(View view){
@@ -534,7 +595,7 @@ public class MainActivity extends Activity {
 					try {
 						chargeBattery(v);
 					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
+					
 						e.printStackTrace();
 					}
 				}
@@ -572,8 +633,8 @@ public class MainActivity extends Activity {
 			       editor.putFloat("AdrinksEarned", (float) drinksEarned);
 			       editor.putInt("AdrinksBanked", drinksBanked);
 
-			       // Commit the edits!
-			       editor.commit();	
+			       //  the edits!
+			       editor.apply();	
 	    		}
 	    	else{
 		    	Context context = getActivity();
@@ -641,5 +702,22 @@ public class MainActivity extends Activity {
 
 		}
 	}
+
+	@Override
+	public void setMainFrag(String tag) {
+		// TODO Auto-generated method stub
+    	main = (MainFrag) getFragmentManager().findFragmentByTag(tag);//FragmentByTag(tag1);
+   	 
+	}
+
+	@Override
+	public void setBankFrag(String tag) {
+		// TODO Auto-generated method stub
+    	bank = (MainFrag) getFragmentManager().findFragmentByTag(tag);//FragmentByTag(tag1);
+   	 
+	}
+
+
+
 
 }

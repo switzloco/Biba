@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 	android:background="#FFFFFF"
-    tools:context="n.switzloco.beerbatterycharger.MainActivity$PlaceholderFragment" >
+    tools:context="n.switzloco.beerbatterycharger.MainFrag" >
 
 
         <RelativeLayout
@@ -27,8 +27,6 @@
 	 		android:textStyle="bold"
 	        android:text="@string/workouttype"  />
           
-
-
           <ImageView
               android:id="@+id/imageView1"
               android:layout_width="wrap_content"
@@ -37,7 +35,7 @@
               android:layout_marginBottom="12dp"
               android:layout_toLeftOf = "@id/label"
               android:contentDescription="@string/avatar_description"
-              android:src="@drawable/partydroid" />
+              android:src="@drawable/partydroid"/>
           
           <Spinner
                   android:id="@+id/spinner1"
