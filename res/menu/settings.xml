@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="n.switzloco.beerbatterycharger.SettingsActivity" >
+
+    <item android:id="@+id/home_menu"
+          android:title="@string/home"
+          android:showAsAction="ifRoom" />
+</menu>

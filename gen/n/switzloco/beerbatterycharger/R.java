@@ -44,31 +44,44 @@ public final class R {
         public static final int sportydroid=0x7f02000f;
     }
     public static final class id {
-        public static final int action_settings=0x7f090010;
-        public static final int badgeView=0x7f09000f;
-        public static final int bankText=0x7f09000d;
-        public static final int beerBalanceText=0x7f09000e;
-        public static final int drinkText=0x7f09000b;
-        public static final int drinksUpper=0x7f090006;
-        public static final int editText1=0x7f090007;
-        public static final int imageView1=0x7f090002;
-        public static final int imageView2=0x7f09000c;
-        public static final int imageView3=0x7f09000a;
-        public static final int imageView5=0x7f090009;
-        public static final int label=0x7f090001;
-        public static final int label2=0x7f090005;
+        public static final int ResetButton=0x7f090008;
+        public static final int action_settings=0x7f090019;
+        public static final int badgeView=0x7f090018;
+        public static final int bankText=0x7f090016;
+        public static final int beerBalanceText=0x7f090017;
+        public static final int drinkText=0x7f090014;
+        public static final int drinksUpper=0x7f09000f;
+        public static final int editText1=0x7f090010;
+        public static final int exchanges=0x7f090009;
+        public static final int home_menu=0x7f09001a;
+        public static final int imageView1=0x7f09000b;
+        public static final int imageView2=0x7f090015;
+        public static final int imageView3=0x7f090013;
+        public static final int imageView5=0x7f090012;
+        public static final int label=0x7f09000a;
+        public static final int label2=0x7f09000e;
         public static final int pager=0x7f090000;
-        public static final int spinner1=0x7f090003;
-        public static final int textView2=0x7f090004;
-        public static final int textView3=0x7f090008;
+        public static final int radioGroup1=0x7f090003;
+        public static final int radio_level1=0x7f090004;
+        public static final int radio_level2=0x7f090005;
+        public static final int radio_level3=0x7f090006;
+        public static final int radio_level4=0x7f090007;
+        public static final int settingsLinear=0x7f090001;
+        public static final int spinner1=0x7f09000c;
+        public static final int textView1=0x7f090002;
+        public static final int textView2=0x7f09000d;
+        public static final int textView3=0x7f090011;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int fragment_main=0x7f030001;
-        public static final int fragment_two=0x7f030002;
+        public static final int activity_settings=0x7f030001;
+        public static final int fragment_main=0x7f030002;
+        public static final int fragment_settings=0x7f030003;
+        public static final int fragment_two=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f080000;
+        public static final int settings=0x7f080001;
     }
     public static final class string {
         public static final int FAQ=0x7f05000f;
@@ -110,6 +123,7 @@ public final class R {
         public static final int title_activity_faq=0x7f05001e;
         public static final int title_activity_how_to=0x7f05001d;
         public static final int title_activity_log_view=0x7f05002c;
+        public static final int title_activity_settings=0x7f05002d;
         public static final int title_section1=0x7f050001;
         public static final int title_section2=0x7f050002;
         public static final int title_section3=0x7f050003;

@@ -13,6 +13,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -26,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -69,6 +71,8 @@ public class MainActivity extends Activity implements OnButtonListener {
 		
     public double curConversion;
 	
+	public workoutDBHelper dbHelper;
+
 	public double drinksEarned = 0;
 	public int drinksBanked = 0;
 	/**
@@ -88,6 +92,8 @@ public class MainActivity extends Activity implements OnButtonListener {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		
+		//mSectionsPagerAdapter.setPrimaryItem(container, position, object);
 
 		//Initiate variables from Pref file
 	       SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -95,20 +101,40 @@ public class MainActivity extends Activity implements OnButtonListener {
 	       drinksEarned = settings.getFloat("AdrinksEarned",0);
 	       drinksBanked = settings.getInt("AdrinksBanked",0);
 	       
-			Log.d("begin",df.format(drinksEarned)+ " drinksEarned");
-			Log.d("begin",df.format(drinksBanked)+ " DrinksBanked");
 		//Set Exchange Rates based on intensity level
 	    	//Get workout level from prefs
-	    	workOutLevel = settings.getString("wLevel","Advanced");
+	    	workOutLevel = settings.getString("wLevel","Intermediate");
 	    	//Set coefficients appropriately
 	    	setExchangeRates(workOutLevel);
+	    	
+	    	//Create data base, will move later.
+	    	dbHelper = new workoutDBHelper(getApplicationContext());
+	    	//workoutDBHelper mDbHelper = newOne.workoutDBHelper(getApplicationContext());
+	    	
 	}
+	
+	   @Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+		    // Handle item selection
+		    switch (item.getItemId()) {
+		    case R.id.action_settings:
+		      	 Intent intent = new Intent(this, SettingsActivity.class);
+		         startActivity(intent);
+		        return true;
+		    default:
+		        return super.onOptionsItemSelected(item);
+		    }
+		}
+
+	    @Override
+	    public boolean onCreateOptionsMenu(Menu menu) {
+	        // Inflate the menu; this adds items to the action bar if it is present.
+	        getMenuInflater().inflate(R.menu.main, menu);
+	        return true;
+	    }
 	
 	public void onStop(){
 		super.onStop();
-		
-		Log.d("end",df.format(drinksEarned)+ " drinksEarned");
-		Log.d("end",df.format(drinksBanked)+ " DrinksBanked");
 		
 	       SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 	       SharedPreferences.Editor editor = settings.edit();
@@ -174,11 +200,34 @@ public class MainActivity extends Activity implements OnButtonListener {
 	}
 	
 	@Override
+	public void onResume() {
+	    super.onResume();  // Always call the superclass method first
+	    
+	    //Log.d("s","resumed");
+	    
+		//Initiate variables from Pref file
+	    //   SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+	    //   settings.edit();
+	    //  drinksEarned = settings.getFloat("AdrinksEarned",0);
+	    //   drinksBanked = settings.getInt("AdrinksBanked",0);
+	       
+		//Set Exchange Rates based on intensity level
+	    	//Get workout level from prefs
+	   //	workOutLevel = settings.getString("wLevel","Intermediate");
+	    	//Set coefficients appropriately
+	    //	setExchangeRates(workOutLevel);
+	    // reset Frags
+	    
+	   //onFragSetUp();
+	}
+	
+	@Override
 	public void onFragSetUp(){
 		main.setBeerText(df.format(drinksEarned));
-
 		
 		if(bank!=null){
+			//Log.d("bank frag reset","bank frag reset");
+			//Log.d("bnak",df.format(drinksBanked));
 			bank.bankBadge(drinksBanked);
 			bank.setBankText(df.format(drinksBanked));
 		}
@@ -332,22 +381,18 @@ public class MainActivity extends Activity implements OnButtonListener {
 	public void setMainFrag(String tag) {
 		// TODO Auto-generated method stub
     	main = (MainFrag) getFragmentManager().findFragmentByTag(tag);//FragmentByTag(tag1);
-    	Log.d("aaa",tag);
 	}
 
 	@Override
 	public void setBankFrag(String tag) {
 		// TODO Auto-generated method stub
     	bank = (MainFrag) getFragmentManager().findFragmentByTag(tag);//FragmentByTag(tag1);
-   	 	Log.d("aaa",tag);
 	}
 
 	@Override
 	public void workSpinnerSelect(String workout) {
 		// TODO Auto-generated method stub
 		String selection = workout;
-		
-		Log.d("aad",workout);
 		
     	if(selection.equals("Running")){
     		curConversion = 1/runConvert;
@@ -384,7 +429,6 @@ public class MainActivity extends Activity implements OnButtonListener {
     		workUnit = getResources().getString(R.string.min);
     		//vatar.setImageResource(R.drawable.sportydroid);
     	}
-    	Log.d("aad", df.format(curConversion));
     	main.setExchangeText(df.format(1/curConversion));
 	}
 
@@ -393,8 +437,5 @@ public class MainActivity extends Activity implements OnButtonListener {
 		// TODO Auto-generated method stub
 		setExchangeRates(workOutLevel);
 	}
-
-
-
 
 }

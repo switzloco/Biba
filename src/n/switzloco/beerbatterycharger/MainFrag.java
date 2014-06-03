@@ -24,8 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-
-
 /**
  * @author nswitzer
  *
