@@ -2,10 +2,13 @@ package n.switzloco.beerbatterycharger;
 
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import n.switzloco.beerbatterycharger.MainFrag.OnButtonListener;
+import n.switzloco.beerbatterycharger.workoutDBcontract.workoutEntry;
 //import n.switzloco.beerbatterycharger.workoutDBcontract.workoutEntry;
 //import n.switzloco.beerbatterycharger.workoutDBcontract.workoutEntry;
 import android.app.Activity;
@@ -15,6 +18,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
@@ -68,6 +72,7 @@ public class MainActivity extends Activity implements OnButtonListener {
 	public String curWorkout;
 	public MainFrag main;
 	public MainFrag bank;
+	//public String workoutType;
 		
     public double curConversion;
 	
@@ -79,6 +84,8 @@ public class MainActivity extends Activity implements OnButtonListener {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+
+	private MainFrag listTag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +116,8 @@ public class MainActivity extends Activity implements OnButtonListener {
 	    	
 	    	//Create data base, will move later.
 	    	dbHelper = new workoutDBHelper(getApplicationContext());
-	    	//workoutDBHelper mDbHelper = newOne.workoutDBHelper(getApplicationContext());
+	    	//this.deleteDatabase(dbHelper.DATABASE_NAME);
+	    	//Log.d("ddd",dbHelper.DATABASE_NAME);
 	    	
 	}
 	
@@ -142,8 +150,24 @@ public class MainActivity extends Activity implements OnButtonListener {
 	       editor.putInt("AdrinksBanked", drinksBanked);
 
 	       //  the edits!
-	       editor.apply();	
+	       editor.apply();
+	       //dbHelper.close();
 	}
+	
+	public void onPause(){
+		super.onPause();
+		
+	       //SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+	       //SharedPreferences.Editor editor = settings.edit();
+	       //editor.putFloat("AdrinksEarned", (float) drinksEarned);
+	       //editor.putInt("AdrinksBanked", drinksBanked);
+
+	       //  the edits!
+	       //editor.apply();
+	       //dbHelper.close();
+	}
+	
+
 	
 	public void setExchangeRates(String worklevel){
 		
@@ -203,33 +227,79 @@ public class MainActivity extends Activity implements OnButtonListener {
 	public void onResume() {
 	    super.onResume();  // Always call the superclass method first
 	    
-	    //Log.d("s","resumed");
-	    
-		//Initiate variables from Pref file
-	    //   SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-	    //   settings.edit();
-	    //  drinksEarned = settings.getFloat("AdrinksEarned",0);
-	    //   drinksBanked = settings.getInt("AdrinksBanked",0);
-	       
-		//Set Exchange Rates based on intensity level
-	    	//Get workout level from prefs
-	   //	workOutLevel = settings.getString("wLevel","Intermediate");
-	    	//Set coefficients appropriately
-	    //	setExchangeRates(workOutLevel);
-	    // reset Frags
-	    
-	   //onFragSetUp();
 	}
+	
+	public void updateList(){
+		//Updates the list fragment with newest workouts
+		
+		
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		
+		Date nowTime = new Date();
+		
+		String[] projection = {
+	    	    workoutEntry.COLUMN_NAME_SENTENCE,
+	    	    workoutEntry.COLUMN_NAME_DATE
+	    	    };
+	    
+	 // How you want the results sorted in the resulting Cursor
+	    String sortOrder =
+	        workoutEntry.COLUMN_NAME_DATE + " DESC";
+	    
+	 // Define 'where' part of query.
+	    String selection = workoutEntry.COLUMN_NAME_WORKOUT + " LIKE ?";
+	    int RowId =12;
+		// Specify arguments in placeholder order.
+	    String[] selectionArgs = {String.valueOf(RowId ) };
+	    
+	    Cursor c = db.query(
+	    	    workoutEntry.TABLE_NAME,  // The table to query
+	    	    projection,                               // The columns to return
+	    	    null,                                // The columns for the WHERE clause
+	    	    null,                            // The values for the WHERE clause
+	    	    null,                                     // don't group the rows
+	    	    null,                                     // don't filter by row groups
+	    	    sortOrder                                  // The sort order
+	    	    );
+	    
+	    List<String> workouts = new ArrayList<String>();
+		
+	    //Create array
+		    
+	    c.moveToFirst();
+	    
+	    while(!c.isAfterLast()){
+	    	
+	    	String workData = c.getString(0);
+	    	workouts.add(workData);
+	    	c.moveToNext();
+	    	Log.d("rar",workData);
+	    }
+	    c.close();
+	      
+	  //Pass Array to ListFrag to update ListView
+	    listTag.setListView(workouts);
+
+	    db.close();
+	
+	}
+	
 	
 	@Override
 	public void onFragSetUp(){
-		main.setBeerText(df.format(drinksEarned));
+		if(main!=null){main.setBeerText(df.format(drinksEarned));}
 		
 		if(bank!=null){
 			//Log.d("bank frag reset","bank frag reset");
-			//Log.d("bnak",df.format(drinksBanked));
 			bank.bankBadge(drinksBanked);
 			bank.setBankText(df.format(drinksBanked));
+		}
+		
+		if(listTag!=null){
+			//Pull database
+		
+			updateList();
+
 		}
 	}
 	@Override
@@ -311,6 +381,38 @@ public class MainActivity extends Activity implements OnButtonListener {
 			       //  the edits!
 			       editor.apply();	
 			
+			    	//Write file with data
+		    		
+		    		Log.d("ooo","db opened");
+
+		    		 // Gets the data repository in write mode
+		    	    SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		    	    Date nowTime = new Date();
+		    	    // Create a new map of values, where column names are the keys
+		    	    ContentValues values = new ContentValues();
+		    	    
+		    	    int RowId = 2;
+		    	    
+		    	    values.put(workoutEntry.COLUMN_NAME_ENTRY_ID, df.format(RowId));
+		    	    values.put(workoutEntry.COLUMN_NAME_WORKOUT, curWorkout);
+		    	    values.put(workoutEntry.COLUMN_NAME_DRINKS_EARNED, df.format(drinksJustEarned));
+		    	    values.put(workoutEntry.COLUMN_NAME_WORKOUT_VALUE, df.format(workoutVal));
+		    	    values.put(workoutEntry.COLUMN_NAME_DATE, nowTime.toString());
+		    	    values.put(workoutEntry.COLUMN_NAME_SENTENCE, curWorkout + ": " + workoutVal + " " + workUnit + " for " + df.format(drinksJustEarned) + " drinks at " + nowTime.toString() );
+
+		    	    Log.d("ooo","vals built");
+		    	    
+		    	    // Insert the new row, returning the primary key value of the new row
+		    	    long newRowId;
+		    	    newRowId = db.insert(
+		    	             workoutEntry.TABLE_NAME,
+		    	             workoutEntry.COLUMN_NAME_NULLABLE,
+		    	             values);
+		    	    
+		    	    db.close();
+		    	    //if(listTag!=null){updateList();}
+		    	    
 				//update the database?
 		}else{
 			//if nothing entered, show toast
@@ -320,7 +422,6 @@ public class MainActivity extends Activity implements OnButtonListener {
 
 			Toast toast = Toast.makeText(context, enterValText, duration);
 			toast.show();
-
 		}
 	}
 
@@ -358,7 +459,7 @@ public class MainActivity extends Activity implements OnButtonListener {
 		@Override
 		public int getCount() {
 			// Show 2 total pages.
-			return 2;
+			return 3;
 		}
 
 		@Override
@@ -388,11 +489,19 @@ public class MainActivity extends Activity implements OnButtonListener {
 		// TODO Auto-generated method stub
     	bank = (MainFrag) getFragmentManager().findFragmentByTag(tag);//FragmentByTag(tag1);
 	}
+	
+	@Override
+	public void setListFrag(String tag) {
+		// TODO Auto-generated method stub
+    	listTag = (MainFrag) getFragmentManager().findFragmentByTag(tag);//FragmentByTag(tag1);
+	}
+
 
 	@Override
 	public void workSpinnerSelect(String workout) {
 		// TODO Auto-generated method stub
 		String selection = workout;
+		curWorkout = workout;
 		
     	if(selection.equals("Running")){
     		curConversion = 1/runConvert;

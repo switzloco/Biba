@@ -45,7 +45,7 @@ public final class R {
     }
     public static final class id {
         public static final int ResetButton=0x7f090008;
-        public static final int action_settings=0x7f090019;
+        public static final int action_settings=0x7f09001a;
         public static final int badgeView=0x7f090018;
         public static final int bankText=0x7f090016;
         public static final int beerBalanceText=0x7f090017;
@@ -53,13 +53,14 @@ public final class R {
         public static final int drinksUpper=0x7f09000f;
         public static final int editText1=0x7f090010;
         public static final int exchanges=0x7f090009;
-        public static final int home_menu=0x7f09001a;
+        public static final int home_menu=0x7f09001b;
         public static final int imageView1=0x7f09000b;
         public static final int imageView2=0x7f090015;
         public static final int imageView3=0x7f090013;
         public static final int imageView5=0x7f090012;
         public static final int label=0x7f09000a;
         public static final int label2=0x7f09000e;
+        public static final int list=0x7f090019;
         public static final int pager=0x7f090000;
         public static final int radioGroup1=0x7f090003;
         public static final int radio_level1=0x7f090004;
@@ -78,6 +79,7 @@ public final class R {
         public static final int fragment_main=0x7f030002;
         public static final int fragment_settings=0x7f030003;
         public static final int fragment_two=0x7f030004;
+        public static final int list_frag=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f080000;

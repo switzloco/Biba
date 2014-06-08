@@ -14,10 +14,11 @@ public class workoutDBcontract {
     public static abstract class workoutEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";
         public static final String COLUMN_NAME_ENTRY_ID = "entryid";
-        public static final String COLUMN_NAME_WORKOUT = "title";
-        public static final String COLUMN_NAME_DRINKS_EARNED = "drinks earned";
-        public static final String COLUMN_NAME_WORKOUT_VALUE = "workout value";
-        public static final String COLUMN_NAME_DATE = "date";
+        public static final String COLUMN_NAME_WORKOUT = "workouttype";
+        public static final String COLUMN_NAME_DRINKS_EARNED = "drinks";
+        public static final String COLUMN_NAME_WORKOUT_VALUE = "workoutval";
+        public static final String COLUMN_NAME_DATE = " date";
+        public static final String COLUMN_NAME_SENTENCE = "sentence";
     	private static final String TEXT_TYPE = " TEXT";
     	private static final String COMMA_SEP = ",";
     	
@@ -28,6 +29,7 @@ public class workoutDBcontract {
     		    workoutEntry.COLUMN_NAME_WORKOUT + TEXT_TYPE + COMMA_SEP +
     		    workoutEntry.COLUMN_NAME_DRINKS_EARNED + TEXT_TYPE + COMMA_SEP +
     		    workoutEntry.COLUMN_NAME_WORKOUT_VALUE + TEXT_TYPE + COMMA_SEP +
+    		    workoutEntry.COLUMN_NAME_SENTENCE + TEXT_TYPE + COMMA_SEP +
     		    workoutEntry.COLUMN_NAME_DATE + TEXT_TYPE + " )";
     	
 
@@ -35,8 +37,5 @@ public class workoutDBcontract {
     		    "DROP TABLE IF EXISTS " + workoutEntry.TABLE_NAME;
 			public static final String COLUMN_NAME_NULLABLE = null;
     }
-
-    
-
 
 }

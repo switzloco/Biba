@@ -4,6 +4,7 @@
 package n.switzloco.beerbatterycharger;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,20 +84,29 @@ public class MainFrag extends Fragment {
         public void setMainFrag(String tag);
         public void setBankFrag(String tag);
 		public void setRates();
+		public void setListFrag(String tag);
+    }
+    
+    public void setListView(List<String> workList){
+    	ListView listItem = (ListView) getActivity().findViewById(R.id.list);
+    	
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, workList);
+    	if(listItem!=null){listItem.setAdapter(adapter);}
+    	Log.d("aaa","setting list view");
     }
     
     public void setBeerText(String beersRemaining){
 
     	TextView beerText = (TextView) getActivity().findViewById(R.id.drinksUpper);
 
-    	beerText.setText(beersRemaining);
+    	if(beerText!=null){beerText.setText(beersRemaining);}
 	
     }
     
     public void setBankText(String beersBanked){
     	TextView bankText = (TextView) getActivity().findViewById(R.id.beerBalanceText);
     	
-    	bankText.setText(beersBanked + " beers banked!");
+    	if(bankText!=null){bankText.setText(beersBanked + " beers banked!");}
     }
     
     @Override
@@ -118,7 +129,7 @@ public class MainFrag extends Fragment {
 		Integer position = (getArguments().getInt(
 				ARG_SECTION_NUMBER) );
 		
-		
+		hideKeyBoard();
 		
 		rootView= inflater.inflate(R.layout.fragment_main, container,
 				false);
@@ -142,8 +153,9 @@ public class MainFrag extends Fragment {
 			onCreateBank(rootView);
 			return rootView;
 		case 3:
-			rootView = inflater.inflate(R.layout.fragment_two, container,
+			rootView = inflater.inflate(R.layout.list_frag, container,
 					false);
+			onCreateList(rootView);
 			return rootView;
 		}
 		//TextView textView = (TextView) rootView
@@ -180,6 +192,12 @@ public class MainFrag extends Fragment {
 		bCallBack.setBankFrag(tag2);
 	}
 	
+	public void onCreateList(View view){
+		final String tag2 = this.getTag();
+		
+		bCallBack.setListFrag(tag2);
+	}
+	
 	public void bankBadge(int bankedDrinks){
 		
 		ImageView badge1 = (ImageView) rootView.findViewById(R.id.badgeView);
@@ -206,12 +224,14 @@ public class MainFrag extends Fragment {
 	}
 
 	public void hideKeyBoard(){
-		EditText textInput = (EditText) rootView.findViewById(R.id.editText1);
+		
+		EditText textInput = null;
+		if(rootView!=null){textInput = (EditText) rootView.findViewById(R.id.editText1);}
 		
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
   		      Context.INPUT_METHOD_SERVICE);
     	
-  		imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0);
+  		if(textInput!=null){imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0);}
   		
   		Log.d("aaa","hiding keyboard");
 	}
