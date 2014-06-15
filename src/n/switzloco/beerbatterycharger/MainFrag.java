@@ -226,6 +226,7 @@ public class MainFrag extends Fragment {
 	public void hideKeyBoard(){
 		
 		EditText textInput = null;
+		
 		if(rootView!=null){textInput = (EditText) rootView.findViewById(R.id.editText1);}
 		
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
